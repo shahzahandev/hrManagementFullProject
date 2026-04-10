@@ -16,7 +16,12 @@ const profileSchema = new Schema({
         trim: true,
         unique: true
     },
-    phoneNumer: {
+    designation: {
+        type: String,
+        required: true
+    }
+    ,
+    phoneNumber: {
         type: String,
         required: true
     },
@@ -33,7 +38,10 @@ const profileSchema = new Schema({
         type: String,
         required: true
     },
+    isHold:{
+        type: Boolean,
+        default: false
+    }
 })
-
 
 module.exports = mongoose.model("EmployeeProfile", profileSchema)
