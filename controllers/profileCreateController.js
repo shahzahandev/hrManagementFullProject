@@ -15,12 +15,12 @@ let profileCreateController = async (req, res) => {
             message: "this email already exist"
         }) 
     }
-
+// <==== Save Database ====>
     let profile = new Profile({
         employeeId: autoId,
         name: name,
         email: email,
-        designation:designation,
+        designation: designation,
         phoneNumber: phoneNumber,
         bloodGroup: bloodGroup,
         gender: gender,
@@ -61,7 +61,6 @@ let updateProfileController = async(req, res) => {
         message: "Update successful.",
         updatedProfile: updateProfile
     })
-
 }
 
 let holdProfileController = async(req, res) => {
@@ -69,11 +68,28 @@ let holdProfileController = async(req, res) => {
     let existingUser = await Profile.findOne({_id: id})
     existingUser.isHold = true,
     existingUser.save()
-
     return res.status(200).json({
         succes: true,
-        message: `${existingUser.name}'s profile is hold successfuly.`
+        message: `${existingUser.name}'s profile is hold successfully.`
     })
 }
 
-module.exports = { profileCreateController, getAllProfileController, singleEmployeeProfileController, updateProfileController, holdProfileController }
+let allProfileWithOutHold = async(req, res) => {
+    let data = await Profile.find({isHold: {$ne : true}})
+    return res.status(200).json({
+        success: true,
+        message: "All profile without hold profile.",
+        data: data
+    })
+}
+
+let deleteProfile = async (req, res) => {
+    let {id} = req.body
+    let data = await Profile.findByIdAndDelete({_id : id})
+    return res.status(200).json({
+        success : true,
+        message: `Profile deleted.`
+    })
+}
+
+module.exports = { profileCreateController, getAllProfileController, singleEmployeeProfileController, updateProfileController, holdProfileController, allProfileWithOutHold, deleteProfile }

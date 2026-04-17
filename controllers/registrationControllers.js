@@ -60,24 +60,24 @@ let registrationController = async (req, res) => {
 }
 
 // User Login part
-let loginController = async ( req, res ) => {
+let loginController = async (req, res) => {
   let { useremail, userpassword } = req.body
   const existingUser = await User.findOne({ useremail: useremail })
-// User can not loging to another divece, if user currently login mood.
-  if(existingUser.isLogin){
+  // User can not loging to another divece, if user currently login mood.
+  if (existingUser.isLogin) {
     return res.status(400).json({
       success: false,
-      message: "Pelase, Logout from another device."
+      message: "Please, Logout from another device."
     })
   }
-// If user not avaiable
+  // If user not avaiable
   if (!existingUser) {
     return res.status(404).json({
       success: false,
       message: "User is not found."
     })
   }
- // matching pass(if frontend password == Database password)
+  // matching pass(if frontend password == Database password)
   let pass = bcrypt.compareSync(userpassword, existingUser.userpassword)
   // console.log(pass); 
   if (pass) {
@@ -96,15 +96,22 @@ let loginController = async ( req, res ) => {
 }
 
 // User logout part
-let logoutController = async(req, res) => {
-  let {id} = req.body
-  let existingUser = await User.findOne({_id: id})
-  existingUser.isLogin = false
-  existingUser.save()
-  return res.status(200).json({
-    success: true,
-    message: "Logout success."
-  })
+let logoutController = async (req, res) => {
+  let { id } = req.body
+  try {
+    let existingUser = await User.findOne({ _id: id })
+    existingUser.isLogin = false
+    existingUser.save()
+    return res.status(200).json({
+      success: true,
+      message: "Logout success."
+    })
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      message: "Server error."
+    })
+  }
 }
 
 module.exports = { registrationController, loginController, logoutController }

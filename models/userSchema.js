@@ -19,7 +19,7 @@ let userSchema = new Schema({
         required: [true, "Password is required."],
         min: [6, "Too low."],
         max: [10, "Too high."],
-        // match: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Please fill a valid password']
+        match: [/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/, 'Please fill a valid password']
     },
     photo: {
         type: String
