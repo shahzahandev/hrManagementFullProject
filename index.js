@@ -1,7 +1,7 @@
 require("dotenv").config()
 const express = require("express");
 const { registrationController, loginController, logoutController } = require("./controllers/registrationControllers");
-const { profileCreateController, getAllProfileController, singleEmployeeProfileController, updateProfileController, holdProfileController, allProfileWithOutHold, deleteProfile } = require("./controllers/profileCreateController");
+const { profileCreateController, getAllProfileController, singleEmployeeProfileController, updateProfileController, holdProfileController, allProfileWithOutHold, deleteProfile, holdProfileBViewController } = require("./controllers/profileCreateController");
 const dbConnection = require("./config/dbConection");
 const app = express()
 const port = process.env.PORT || 5000
@@ -21,6 +21,7 @@ app.post("/updateProfile/:id", updateProfileController)
 app.post("/holdProfile", holdProfileController)
 app.delete("/deleteProfile", deleteProfile)
 app.get("/allWithoutHold", allProfileWithOutHold)
+app.get("/holdProfileView", holdProfileBViewController)
 
 //<===== Server =====>
 app.listen(port, ( ) => {

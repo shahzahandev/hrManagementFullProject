@@ -88,8 +88,17 @@ let deleteProfile = async (req, res) => {
     let data = await Profile.findByIdAndDelete({_id : id})
     return res.status(200).json({
         success : true,
-        message: `Profile deleted.`
+        message: `Profile deleted.`,
     })
 }
 
-module.exports = { profileCreateController, getAllProfileController, singleEmployeeProfileController, updateProfileController, holdProfileController, allProfileWithOutHold, deleteProfile }
+let holdProfileBViewController = async (req, res) => {
+    let data = await Profile.find({isHold: {$eq : true}})
+    return res.status(200).json({
+        success: true,
+        message: "Hold profile",
+        data: data
+    })
+} 
+
+module.exports = { profileCreateController, getAllProfileController, singleEmployeeProfileController, updateProfileController, holdProfileController, allProfileWithOutHold, deleteProfile, holdProfileBViewController }
